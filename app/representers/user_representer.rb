@@ -5,7 +5,8 @@ class UserRepresenter
 
     def as_json
         {
-            email: user.email
+            id: @user.id,
+            email: @user.email
         }
     end
 

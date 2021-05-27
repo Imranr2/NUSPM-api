@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  module_code: MyString
+  type: 
+  current_slot: MyString
+  desired_slots: MyString
+  user: one
+
+two:
+  module_code: MyString
+  type: 
+  current_slot: MyString
+  desired_slots: MyString
+  user: two
