@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_27_071715) do
+ActiveRecord::Schema.define(version: 2021_05_28_040355) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,8 @@ ActiveRecord::Schema.define(version: 2021_05_27_071715) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "desired_slots", default: [], array: true
+    t.boolean "completed"
+    t.boolean "reserved"
     t.index ["user_id"], name: "index_swaps_on_user_id"
   end
 
