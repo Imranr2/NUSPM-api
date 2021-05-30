@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_27_070321) do
+ActiveRecord::Schema.define(version: 2021_05_27_071715) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,11 +19,18 @@ ActiveRecord::Schema.define(version: 2021_05_27_070321) do
     t.string "module_code"
     t.string "slot_type"
     t.string "current_slot"
-    t.string "desired_slots", default: [], array: true
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "desired_slots", default: [], array: true
     t.index ["user_id"], name: "index_swaps_on_user_id"
+  end
+
+  create_table "user_tests", force: :cascade do |t|
+    t.string "email"
+    t.string "password_digest"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|
