@@ -39,6 +39,6 @@ module NUSPM
     config.api_only = true
     
     # include lib directory when Rails application loads
-    config.autoload_paths << Rails.root.join('lib')
+    config.eager_load_paths << Rails.root.join('lib')
   end
 end
