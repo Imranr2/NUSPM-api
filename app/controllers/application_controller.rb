@@ -4,6 +4,10 @@ class ApplicationController < ActionController::API
 
     private
 
+    def index
+        render html: '<h1>NUSPM-api</h1>'.html_safe
+    end
+
     def authenticate_request
         @current_user = AuthorizeApiRequest.call(request.headers).result
         render json: { error: 'Not Authorized' }, status: 401 unless @current_user
