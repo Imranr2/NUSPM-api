@@ -43,6 +43,7 @@ module Api
           render json: { message: "Offer deleted" }, status: :ok
         else
           render json: { message: "Unable to delete offer" }, status: :bad_request
+        end
       end
 
       private
