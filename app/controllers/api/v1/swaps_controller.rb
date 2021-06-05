@@ -1,9 +1,9 @@
 module Api
   module V1
     class SwapsController < ApplicationController
+      before_action :authenticate_request
       before_action :set_swap, only: [:show, :update, :destroy]
       before_action :check_user, only: [:update, :destroy]
-      before_action :authenticate_request
 
       # GET /swaps
       def index
@@ -18,7 +18,7 @@ module Api
       end
 
       def search
-        @swaps = Swap.where("? = ANY(desired_slots)", params[:desired_slots]).where(module_code: params[:module_code], slot_type:params[:slot_type]).where.not(user_id: current_user.id)
+        @swaps = Swap.where("? = ANY(desired_slots)", params[:desired_slots]).where(module_code: params[:module_code], slot_type:params[:slot_type])
         render json: SwapsRepresenter.new(@swaps).as_json
       end
 
@@ -64,8 +64,10 @@ module Api
         end
 
         def check_user
-          if current_user != @swap.user.id
-            render json: {message: "Unauthorized"}, status: :unauthorized
+          if current_user.id != @swap.user.id
+            render json: {message: "Unauthorized",
+              user: current_user,
+              swap: @swap.user.id}, status: :unauthorized
           else
           end
         end
