@@ -60,7 +60,7 @@ module Api
 
         # Only allow a list of trusted parameters through.
         def swap_params
-          params.require(:swap).permit(:module_code, :slot_type, :current_slot, :completed, :reserved, :desired_slots => [])
+          params.require(:swap).permit(:module_code, :slot_type, :current_slot, :completed, :reserved, :startTime, :endTime, :venue, :day, :desired_slots => [])
         end
 
         def check_user

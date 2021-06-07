@@ -5,6 +5,6 @@ class Swap < ApplicationRecord
     scope: [:user_id, :module_code]
   }
 
-  validates :slot_type, :current_slot, :desired_slots, :user_id, presence: true
+  validates :slot_type, :current_slot, :desired_slots, :venue, :startTime, :endTime, :day,:user_id, presence: true
   validates :completed, :reserved, inclusion: { in: [true, false] }
 end
