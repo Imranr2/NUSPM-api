@@ -54,7 +54,7 @@ module Api
 
         # Only allow a list of trusted parameters through.
         def offer_params
-          params.require(:offer).permit(:user_id, :accepted, :initiator_swap_id, :creator_swap_id)
+          params.require(:offer).permit(:user_id, :accepted, :initiator_swap_id, :creator_swap_id, :pending, :rejected)
         end
     end
   end

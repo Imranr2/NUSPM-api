@@ -7,6 +7,8 @@ class OfferRepresenter
         {
             id: offer.id,
             isAccepted: offer.accepted,
+            isPending: offer.pending,
+            isRejected: offer.rejected,
             initiator_swap_id: offer.initiator_swap_id,
             creator_swap_id: offer.creator_swap_id,
         }

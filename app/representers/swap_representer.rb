@@ -12,7 +12,13 @@ class SwapRepresenter
             desired_slots: swap.desired_slots,
             isCompleted: swap.completed,
             isReserved: swap.reserved,
-            user_id: swap.user_id            
+            user_id: swap.user_id,
+            venue: swap.venue,
+            startTime: swap.startTime,
+            endTime: swap.endTime,
+            day: swap.day,
+            user_id: swap.user.id
+
         }
     end
 
