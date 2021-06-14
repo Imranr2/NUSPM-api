@@ -18,7 +18,6 @@ class SwapRepresenter
             endTime: swap.endTime,
             day: swap.day,
             user_id: swap.user.id
-
         }
     end
 

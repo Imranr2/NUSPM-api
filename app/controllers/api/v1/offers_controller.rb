@@ -1,8 +1,9 @@
 module Api
   module V1    
     class OffersController < ApplicationController
-      before_action :set_offer, only: [:show, :update, :destroy]
       before_action :authenticate_request
+      before_action :set_offer, only: [:show, :update, :destroy]
+      before_action :check_user, only: [:update, :destroy]
 
       # GET /offers
       def index
@@ -46,6 +47,16 @@ module Api
         end
       end
 
+      def withdraw
+        @offers = Offers.where(initiated: true, initiator_swap_id: params[:swap_id])
+        if @offers
+          @offers.destroy_all
+          render json: {message: "Offers withdrawn"}, status: :ok
+        else
+          render json: {message: "Unable to withdraw offer"}, status:bad_request
+        end
+      end
+
       private
         # Use callbacks to share common setup or constraints between actions.
         def set_offer
@@ -54,7 +65,16 @@ module Api
 
         # Only allow a list of trusted parameters through.
         def offer_params
-          params.require(:offer).permit(:user_id, :accepted, :initiator_swap_id, :creator_swap_id, :pending, :rejected)
+          params.require(:offer).permit(:accepted, :initiator_swap_id, :creator_swap_id, :pending, :rejected, :initiated)
+        end
+
+        def check_user
+          if current_user.id != @swap.user.id
+            render json: {message: "Unauthorized",
+              user: current_user,
+              swap: @swap.user.id}, status: :unauthorized
+          else
+          end
         end
     end
   end

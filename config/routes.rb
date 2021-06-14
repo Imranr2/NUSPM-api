@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       resources :swaps
       resources :offers
       post 'searchSwap', to: 'swaps#search'
+      post 'withdrawOffer', to: 'offers#withdraw'
     end
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
