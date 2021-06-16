@@ -10,22 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_14_071001) do
+ActiveRecord::Schema.define(version: 2021_06_16_065509) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "offers", force: :cascade do |t|
-    t.bigint "user_id", null: false
     t.boolean "accepted"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "initiator_swap_id"
-    t.integer "creator_swap_id"
+    t.bigint "initiator_user_id"
+    t.bigint "creator_user_id"
+    t.bigint "initiator_swap_id"
+    t.bigint "creator_swap_id"
     t.boolean "pending"
-    t.boolean "rejected"
-    t.boolean "initiated"
-    t.index ["user_id"], name: "index_offers_on_user_id"
+    t.index ["creator_swap_id"], name: "index_offers_on_creator_swap_id"
+    t.index ["creator_user_id"], name: "index_offers_on_creator_user_id"
+    t.index ["initiator_swap_id"], name: "index_offers_on_initiator_swap_id"
+    t.index ["initiator_user_id"], name: "index_offers_on_initiator_user_id"
   end
 
   create_table "swaps", force: :cascade do |t|
@@ -52,6 +54,9 @@ ActiveRecord::Schema.define(version: 2021_06_14_071001) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  add_foreign_key "offers", "users"
+  add_foreign_key "offers", "swaps", column: "creator_swap_id"
+  add_foreign_key "offers", "swaps", column: "initiator_swap_id"
+  add_foreign_key "offers", "users", column: "creator_user_id"
+  add_foreign_key "offers", "users", column: "initiator_user_id"
   add_foreign_key "swaps", "users"
 end

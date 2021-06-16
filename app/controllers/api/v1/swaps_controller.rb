@@ -33,6 +33,16 @@ module Api
         end
       end
 
+      def showSwap
+        @swaps = Swap.where(id: JSON.parse(params[:ids]))
+
+        if @swaps
+          render json: SwapsRepresenter.new(@swaps).as_json, status: :ok
+        else
+          render json: {message: "Fucked"}, status: :bad_request
+        end
+      end
+
       # PATCH/PUT /swaps/1
       def update
           if @swap.update(swap_params)
