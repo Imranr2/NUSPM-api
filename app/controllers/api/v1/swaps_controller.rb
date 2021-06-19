@@ -1,7 +1,8 @@
 module Api
   module V1
     class SwapsController < ApplicationController
-      before_action :authenticate_request
+      # before_action :authenticate_request
+      before_filter :authenticate_request, except: [:create]
       before_action :set_swap, only: [:show, :update, :destroy]
       before_action :check_user, only: [:update, :destroy]
 
