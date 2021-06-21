@@ -1,7 +1,7 @@
 module Api
   module V1    
     class OffersController < ApplicationController
-      # before_action :authenticate_request
+      # before_action :authenticate_requests
       before_action :set_offer, only: [:show, :update, :destroy]
       # before_action :check_user, only: [:update, :destroy]
 
