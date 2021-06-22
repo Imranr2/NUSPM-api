@@ -40,10 +40,6 @@ ActiveRecord::Schema.define(version: 2021_06_16_065509) do
     t.string "desired_slots", default: [], array: true
     t.boolean "completed"
     t.boolean "reserved"
-    t.string "venue"
-    t.string "startTime"
-    t.string "endTime"
-    t.string "day"
     t.index ["user_id"], name: "index_swaps_on_user_id"
   end
 
