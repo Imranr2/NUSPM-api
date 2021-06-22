@@ -3,11 +3,11 @@ module Api
     class OffersController < ApplicationController
       before_action :authenticate_request
       before_action :set_offer, only: [:show, :update, :destroy]
-      before_action :check_user, only: [:update, :destroy]
+      # before_action :check_user, only: [:update, :destroy]
 
       # GET /offers
       def index
-        @offers = current_user.offers
+        @offers = Offer.where(initiator_user_id: current_user.id).or(Offer.where(creator_user_id: current_user.id))
 
         render json: OffersRepresenter.new(@offers).as_json
       end
@@ -19,14 +19,16 @@ module Api
 
       # POST /offers
       def create
+        # @offer = current_user.initiator_user_offers.new(offer_params)
         @offer = Offer.new(offer_params)
 
         if @offer.save
-          render json: OfferRepresenter.new(@offer).as_json, status: :created, location: @offer
+          render json: OfferRepresenter.new(@offer).as_json, status: :created
         else
           render json: @offer.errors.full_messages, status: :unprocessable_entity
         end
       end
+      
 
       # PATCH/PUT /offers/1
       def update
@@ -48,7 +50,7 @@ module Api
       end
 
       def withdraw
-        @offers = Offers.where(initiated: true, initiator_swap_id: params[:swap_id])
+        @offers = Offers.where(initiator_swap_id: params[:swap_id])
         if @offers
           @offers.destroy_all
           render json: {message: "Offers withdrawn"}, status: :ok
@@ -65,17 +67,17 @@ module Api
 
         # Only allow a list of trusted parameters through.
         def offer_params
-          params.require(:offer).permit(:accepted, :initiator_swap_id, :creator_swap_id, :pending, :rejected, :initiated)
+          params.require(:offer).permit(:accepted, :initiator_swap_id, :creator_swap_id, :initiator_user_id, :creator_user_id, :pending)
         end
 
-        def check_user
-          if current_user.id != @swap.user.id
-            render json: {message: "Unauthorized",
-              user: current_user,
-              swap: @swap.user.id}, status: :unauthorized
-          else
-          end
-        end
+        # def check_user
+        #   if current_user.id != @offer.user.id
+        #     render json: {message: "Unauthorized",
+        #       user: current_user,
+        #       swap: @offer.user.id}, status: :unauthorized
+        #   else
+        #   end
+        # end
     end
   end
 end
