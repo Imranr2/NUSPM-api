@@ -1,6 +1,6 @@
 class User < ApplicationRecord
     has_secure_password
-    has_many :swaps
+    has_many :swaps, dependent: :destroy
     
     has_many :initiator_user_offers, class_name: 'Offer', foreign_key: 'initiator_user_id', dependent: :destroy
     has_many :creator_user_offers, class_name: 'Offer', foreign_key: 'creator_user_id', dependent: :destroy
