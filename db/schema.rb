@@ -10,20 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_16_065509) do
+ActiveRecord::Schema.define(version: 2021_06_24_060816) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "offers", force: :cascade do |t|
     t.boolean "accepted"
+    t.boolean "pending"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "initiator_user_id"
     t.bigint "creator_user_id"
     t.bigint "initiator_swap_id"
     t.bigint "creator_swap_id"
-    t.boolean "pending"
     t.index ["creator_swap_id"], name: "index_offers_on_creator_swap_id"
     t.index ["creator_user_id"], name: "index_offers_on_creator_user_id"
     t.index ["initiator_swap_id"], name: "index_offers_on_initiator_swap_id"
@@ -34,16 +34,16 @@ ActiveRecord::Schema.define(version: 2021_06_16_065509) do
     t.string "module_code"
     t.string "slot_type"
     t.string "current_slot"
-    t.bigint "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "desired_slots", default: [], array: true
     t.boolean "completed"
     t.boolean "reserved"
     t.string "venue"
     t.string "startTime"
     t.string "endTime"
     t.string "day"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "desired_slots", default: [], array: true
     t.index ["user_id"], name: "index_swaps_on_user_id"
   end
 
