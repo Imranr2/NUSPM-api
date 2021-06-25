@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_24_060816) do
+ActiveRecord::Schema.define(version: 2021_06_25_020913) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,7 +35,6 @@ ActiveRecord::Schema.define(version: 2021_06_24_060816) do
     t.string "slot_type"
     t.string "current_slot"
     t.boolean "completed"
-    t.boolean "reserved"
     t.string "venue"
     t.string "startTime"
     t.string "endTime"

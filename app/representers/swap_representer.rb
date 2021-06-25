@@ -11,7 +11,6 @@ class SwapRepresenter
             current_slot: swap.current_slot,
             desired_slots: swap.desired_slots,
             isCompleted: swap.completed,
-            isReserved: swap.reserved,
             venue: swap.venue,
             startTime: swap.startTime,
             endTime: swap.endTime,
