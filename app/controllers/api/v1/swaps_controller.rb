@@ -3,7 +3,7 @@ module Api
     class SwapsController < ApplicationController
       before_action :authenticate_request
       before_action :set_swap, only: [:show, :update, :destroy]
-      before_action :check_user, only: [:update, :destroy]
+      # before_action :check_user, only: [:update, :destroy]
 
       # GET /swaps
       def index
@@ -70,17 +70,17 @@ module Api
 
         # Only allow a list of trusted parameters through.
         def swap_params
-          params.require(:swap).permit(:module_code, :slot_type, :current_slot, :completed, :reserved, :startTime, :endTime, :venue, :day, :desired_slots => [])
+          params.require(:swap).permit(:module_code, :slot_type, :current_slot, :completed, :startTime, :endTime, :venue, :day, :desired_slots => [])
         end
 
-        def check_user
-          if current_user.id != @swap.user.id
-            render json: {message: "Unauthorized",
-              user: current_user,
-              swap: @swap.user.id}, status: :unauthorized
-          else
-          end
-        end
+        # def check_user
+        #   if current_user.id != @swap.user.id
+        #     render json: {message: "Unauthorized",
+        #       user: current_user,
+        #       swap: @swap.user.id}, status: :unauthorized
+        #   else
+        #   end
+        # end
     end
   end
 end

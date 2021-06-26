@@ -9,5 +9,5 @@ class Swap < ApplicationRecord
   }
 
   validates :slot_type, :current_slot, :desired_slots, :venue, :startTime, :endTime, :day,:user_id, presence: true
-  validates :completed, :reserved, inclusion: { in: [true, false] }
+  validates :completed, inclusion: { in: [true, false] }
 end

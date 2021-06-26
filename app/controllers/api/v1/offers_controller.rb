@@ -50,12 +50,22 @@ module Api
       end
 
       def withdraw
-        @offers = Offers.where(initiator_swap_id: params[:swap_id])
+        @offers = Offer.where(initiator_swap_id: params[:swap_id])
         if @offers
           @offers.destroy_all
           render json: {message: "Offers withdrawn"}, status: :ok
         else
           render json: {message: "Unable to withdraw offer"}, status:bad_request
+        end
+      end
+
+      def reject
+        @offers = Offer.where(creator_swap_id: params[:swap_id])
+        if @offers
+          @offers.destroy_all
+          render json: {message: "Rejected offers"}, status: :ok
+        else
+          render json: {message: "Unable to reject offer"}, status:bad_request
         end
       end
 
