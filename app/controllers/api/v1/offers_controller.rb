@@ -26,8 +26,8 @@ module Api
           @creatorSwap = Swap.find(offer_params[:creator_swap_id])
           @initiatorSwap = Swap.find(offer_params[:initiator_swap_id])
           
-          Notification.create!(content: "You have received a new offer for #{@creatorSwap.module_code} #{@creatorSwap.slot_type}", notifiable:@creatorSwap, user_id:offer_params[:creator_user_id])
-          Notification.create!(content: "You have sent an offer for #{@initiatorSwap.module_code} #{@initiatorSwap.slot_type}", notifiable:@initiatorSwap, user_id:offer_params[:initiator_user_id])
+          Notification.create!(content: "You have received a new offer for #{@creatorSwap.module_code} #{@creatorSwap.slot_type} [#{@creatorSwap.current_slot}]", notifiable:@creatorSwap, user_id:offer_params[:creator_user_id])
+          Notification.create!(content: "You have sent an offer for #{@initiatorSwap.module_code} #{@initiatorSwap.slot_type} [#{@initiatorSwap.current_slot}]", notifiable:@initiatorSwap, user_id:offer_params[:initiator_user_id])
           
           render json: OfferRepresenter.new(@offer).as_json, status: :created
         else

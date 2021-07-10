@@ -40,7 +40,7 @@ module Api
         if @swaps
           render json: SwapsRepresenter.new(@swaps).as_json, status: :ok
         else
-          render json: {message: "Fucked"}, status: :bad_request
+          render json: {message: "Unable to show swap"}, status: :bad_request
         end
       end
 
