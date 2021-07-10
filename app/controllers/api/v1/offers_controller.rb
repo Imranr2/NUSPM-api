@@ -23,6 +23,12 @@ module Api
         @offer = Offer.new(offer_params)
 
         if @offer.save
+          @creatorSwap = Swap.find(offer_params[:creator_swap_id])
+          @initiatorSwap = Swap.find(offer_params[:initiator_swap_id])
+          
+          Notification.create!(content: "You have received a new offer for #{@creatorSwap.module_code} #{@creatorSwap.slot_type}", notifiable:@creatorSwap, user_id:offer_params[:creator_user_id])
+          Notification.create!(content: "You have sent an offer for #{@initiatorSwap.module_code} #{@initiatorSwap.slot_type}", notifiable:@initiatorSwap, user_id:offer_params[:initiator_user_id])
+          
           render json: OfferRepresenter.new(@offer).as_json, status: :created
         else
           render json: @offer.errors.full_messages, status: :unprocessable_entity
@@ -32,8 +38,9 @@ module Api
 
       # PATCH/PUT /offers/1
       def update
+        # something here if accepted or rejected then create notification
         if @offer.update(offer_params)
-          render json: { message: "Offer updated" }, status: :ok
+          render json: { message: offer_params[:accepted] }, status: :ok
         else
           render json: @offer.errors.full_messages, status: :unprocessable_entity
         end
@@ -51,6 +58,7 @@ module Api
 
       def withdraw
         @offers = Offer.where(initiator_swap_id: params[:swap_id])
+        @swap = Swap.find(params[:swap_id])
         if @offers
           @offers.destroy_all
           render json: {message: "Offers withdrawn"}, status: :ok
@@ -61,6 +69,8 @@ module Api
 
       def reject
         @offers = Offer.where(creator_swap_id: params[:swap_id])
+        @swap = Swap.find(params[:swap_id])
+
         if @offers
           @offers.destroy_all
           render json: {message: "Rejected offers"}, status: :ok

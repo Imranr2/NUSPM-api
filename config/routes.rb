@@ -8,6 +8,9 @@ Rails.application.routes.draw do
       post 'withdrawOffer', to: 'offers#withdraw'
       post 'searchMultiple', to: 'swaps#showSwap'
       post 'rejectOffers', to: 'offers#reject'
+      get "notification", to: "notifications#index"
+      patch "notification/markAsRead", to: "notifications#mark_as_read" 
+
     end
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

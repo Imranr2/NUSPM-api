@@ -10,10 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_25_020913) do
+ActiveRecord::Schema.define(version: 2021_07_09_132058) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "notifications", force: :cascade do |t|
+    t.text "content"
+    t.bigint "user_id", null: false
+    t.string "notifiable_type", null: false
+    t.bigint "notifiable_id", null: false
+    t.datetime "read_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
 
   create_table "offers", force: :cascade do |t|
     t.boolean "accepted"
@@ -53,6 +65,7 @@ ActiveRecord::Schema.define(version: 2021_06_25_020913) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "notifications", "users"
   add_foreign_key "offers", "swaps", column: "creator_swap_id"
   add_foreign_key "offers", "swaps", column: "initiator_swap_id"
   add_foreign_key "offers", "users", column: "creator_user_id"

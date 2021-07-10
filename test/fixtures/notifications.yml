@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  content: MyText
+  user_id: one
+  notifiable: one
+  notifiable_type: Notifiable
+  read_at: 2021-07-09 21:20:58
+
+two:
+  content: MyText
+  user_id: two
+  notifiable: two
+  notifiable_type: Notifiable
+  read_at: 2021-07-09 21:20:58
