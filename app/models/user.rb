@@ -7,7 +7,8 @@ class User < ApplicationRecord
 
     has_many :notifications, dependent: :destroy
 
-    VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i 
+    # VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
+    VALID_EMAIL_REGEX = /e\d{7}@u.nus.edu/i
 
     validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false,
         message: -> (object, data) do
