@@ -8,7 +8,7 @@ module Api
       end
       
       def create
-        @notification = current_user.notifications.new(notification_params)
+        @notification = Notification.new(notification_params)
         if @notification.save
           render json: NotificationRepresenter.new(@notification).as_json, status: :created
         else
@@ -24,7 +24,7 @@ module Api
 
       private
         def notification_params
-          params.require(:notification).permit(:content, :notifiable_type, :notifiable_id)
+          params.require(:notification).permit(:content, :notifiable_type, :notifiable_id, :user_id)
         end
     end
   end

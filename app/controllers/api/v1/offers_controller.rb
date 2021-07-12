@@ -27,6 +27,7 @@ module Api
           @initiatorSwap = Swap.find(offer_params[:initiator_swap_id])
           
           Notification.create!(content: "You have received a new offer for #{@creatorSwap.module_code} #{@creatorSwap.slot_type} [#{@creatorSwap.current_slot}]", notifiable:@creatorSwap, user_id:offer_params[:creator_user_id])
+
           Notification.create!(content: "You have sent an offer for #{@initiatorSwap.module_code} #{@initiatorSwap.slot_type} [#{@initiatorSwap.current_slot}]", notifiable:@initiatorSwap, user_id:offer_params[:initiator_user_id])
           
           render json: OfferRepresenter.new(@offer).as_json, status: :created
@@ -56,10 +57,28 @@ module Api
         end
       end
 
-      def withdraw
+      def withdraw_current_user_offers
         @offers = Offer.where(initiator_swap_id: params[:swap_id])
-        @swap = Swap.find(params[:swap_id])
         if @offers
+          @offers.each do |offer|
+            @swap = Swap.find(offer.initiator_swap_id)
+            Notification.create!(content: "The offer for #{@swap.module_code} #{@swap.slot_type} [#{@swap.current_slot}] has been withdrawn", notifiable: offer, user_id:offer.creator_user_id)
+          end
+          @offers.destroy_all
+          render json: {message: "Offers withdrawn"}, status: :ok
+        else
+          render json: {message: "Unable to withdraw offer"}, status:bad_request
+        end
+      end
+
+      def withdraw_other_user_offers
+        @offers = Offer.where(initiator_swap_id: params[:initiator_swap_id]).where.not(creator_swap_id: params[:creator_swap_id])
+        
+        if @offers
+          @offers.each do |offer|
+            @swap = Swap.find(offer.initiator_swap_id)
+            Notification.create!(content: "The offer for #{@swap.module_code} #{@swap.slot_type} [#{@swap.current_slot}] has been withdrawn", notifiable: offer, user_id:offer.creator_user_id)
+          end
           @offers.destroy_all
           render json: {message: "Offers withdrawn"}, status: :ok
         else
@@ -69,9 +88,11 @@ module Api
 
       def reject
         @offers = Offer.where(creator_swap_id: params[:swap_id])
-        @swap = Swap.find(params[:swap_id])
-
         if @offers
+          @offers.each do |offer|
+            @swap = Swap.find(offer.creator_swap_id)
+            Notification.create!(content: "The offer for #{@swap.module_code} #{@swap.slot_type} [#{@swap.current_slot}] has been withdrawn", notifiable: offer, user_id:offer.initiator_user_id)
+          end
           @offers.destroy_all
           render json: {message: "Rejected offers"}, status: :ok
         else
