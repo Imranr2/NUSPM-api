@@ -36,7 +36,11 @@ module Api
 
       # PATCH/PUT /swaps/1
       def update
+          @old_module_code = @swap.module_code
+          @old_slot_type = @swap.slot_type
+          @old_current_slot = @swap.current_slot
           if @swap.update(swap_params)
+            Notification.create!(content: "You have edited the swap for #{@old_module_code} #{@old_slot_type} [#{@old_current_slot}]", notifiable: @swap, user_id: current_user.id)
             render json: { message: "Swap updated" }, status: :ok
           else
             render json: @swap.errors.full_messages, status: :unprocessable_entity
@@ -47,7 +51,7 @@ module Api
       def destroy
         if @swap
           @swap.destroy
-          Notification.create!(content: "You have deleted the swap request for #{@swap.module_code} #{@swap.slot_type}", notifiable: @swap, user_id:current_user.id)
+          Notification.create!(content: "You have deleted the swap request for #{@swap.module_code} #{@swap.slot_type} [#{@swap.current_slot}]", notifiable: @swap, user_id:current_user.id)
           render json: { message: "Swap deleted" }, status: :ok
         else
           render json: { message: "Unable to delete swap" }, status: :bad_request
