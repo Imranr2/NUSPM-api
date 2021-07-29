@@ -50,6 +50,8 @@ module Api
       # DELETE /offers/1
       def destroy
         if @offer
+          @swap = Swap.find(@offer.initiator_swap_id)
+          Notification.create!(content: "The offer for #{@swap.module_code} #{@swap.slot_type} [#{@swap.current_slot}] has been withdrawn", notifiable: @offer, user_id:@offer.initiator_user_id)
           @offer.destroy
           render json: { message: "Offer deleted" }, status: :ok
         else
